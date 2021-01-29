@@ -8,6 +8,7 @@ public class fastCSV
     public delegate bool ToOBJ<T>(T obj, COLUMNS columns);
     public delegate void FromObj<T>(T obj, List<object> columns);
     private static int _COLCOUNT = 50;
+    public static string[] ColName;//用于获取所有列名
 
     public struct COLUMNS
     {
@@ -181,6 +182,7 @@ public class fastCSV
             line = br.ReadLine();
             if (line.Count == 0)
                 return list;
+            ColName = line.ToString().Split(delimiter);
             // actual col count
             int cc = CountOccurence(line, delimiter);
             if (cc == 0)
@@ -188,7 +190,10 @@ public class fastCSV
             cols = new COLUMNS.MGSpan[cc + 1];
         }
         else
+        {
             cols = new COLUMNS.MGSpan[colcount];
+            ColName = new string[colcount];
+        }
 
         while (true)
         {
